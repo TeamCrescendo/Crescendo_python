@@ -41,7 +41,8 @@ import json
 #스프링으로 전달하는 함수
 def export_to_spring(request):
     # 가상의 데이터 생성 (실제 데이터 사용)
-    data_to_export = {'musicxmlfile': ''}
+    muscixml_path='D:\\Crescendo_python\\download\\audio.musicxml'
+    data_to_export = {'musicxmlfile': muscixml_path}
 
     # JSON 파일 생성
     json_data = json.dumps(data_to_export)
