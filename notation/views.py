@@ -18,7 +18,8 @@ def get_youtube_info(request):
         serializer =Youtube_Info_Serializer(data=data)
 
         if serializer.is_valid():
-            serializer.save()
+            # serializer.save()
+            print(data)
             return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
     else:
