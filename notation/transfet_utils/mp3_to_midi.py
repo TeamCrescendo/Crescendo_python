@@ -6,15 +6,16 @@ from basic_pitch.inference import predict_and_save
 import os
 current_directory = os.getcwd()
 print(current_directory)
-# MP3 파일을 WAV 파일로 변환
-mp3_file_path = os.path.join(current_directory, "audio.mp3")
+mp3_file_path = os.path.join('D:\\Crescendo_python\\download', "audio.mp3")
 
 # 성공
-predict_and_save(
-    [mp3_file_path],
-    current_directory,
-    True,
-    True,
-    False,
-    False,
-)
+def down_musicxml(mp3_path):
+    predict_and_save(
+        [mp3_path],
+        'D:\\Crescendo_python\\download',
+        True,
+        True,
+        False,
+        False,
+    )
+down_musicxml(mp3_file_path)

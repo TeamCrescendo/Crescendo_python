@@ -11,7 +11,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from notation.models import Youtube_Info_Serializer
-from notation.transfet_utils import down_mp3
+from notation.transfet_utils import down_mp3,mp3_to_midi
 
 @csrf_exempt
 def get_youtube_info(request):
@@ -23,8 +23,36 @@ def get_youtube_info(request):
             instance=serializer.save()
             print(data)
             json_data=JsonResponse(serializer.data, status=201)
-            return down_mp3.download_audio(instance.url)
+            #mp3파일 다운받고 midi파일로 변환
+            mp3_path=down_mp3.download_audio(instance.url)
+            musicxml_path=mp3_to_midi.down_musicxml(mp3_path)
+            return ''
         return JsonResponse(serializer.errors, status=400)
     else:
         return JsonResponse({'error': 'Only POST requests are allowed.'}, status=405)
+
+
+# views.py in Django
+from django.http import JsonResponse
+import requests
+import json
+
+def export_to_spring(request):
+    # 가상의 데이터 생성 (실제 데이터 사용)
+    data_to_export = {'musicxmlfile': ''}
+
+    # JSON 파일 생성
+    json_data = json.dumps(data_to_export)
+
+    # 스프링 서버 URL
+    spring_url = 'http://spring-server-url/api/import-data'
+
+    # HTTP POST 요청을 통해 JSON 파일 전송
+    response = requests.post(spring_url, json=json_data, headers={'Content-Type': 'application/json'})
+
+    # 스프링에서의 응답 확인
+    spring_response = response.json()
+
+    # 장고에서의 응답
+    return JsonResponse({'django_response': 'Export successful', 'spring_response': spring_response})
 
