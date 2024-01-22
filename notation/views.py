@@ -26,6 +26,8 @@ def get_youtube_info(request):
             #mp3파일 다운받고 midi파일로 변환
             mp3_path=down_mp3.download_audio(instance.url)
             musicxml_path=mp3_to_midi.down_musicxml(mp3_path)
+            #midi파일을 musicxml로 변환하기
+
             return ''
         return JsonResponse(serializer.errors, status=400)
     else:
@@ -36,7 +38,7 @@ def get_youtube_info(request):
 from django.http import JsonResponse
 import requests
 import json
-
+#스프링으로 전달하는 함수
 def export_to_spring(request):
     # 가상의 데이터 생성 (실제 데이터 사용)
     data_to_export = {'musicxmlfile': ''}
