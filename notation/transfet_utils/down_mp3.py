@@ -7,7 +7,8 @@ from pytube import YouTube
 # 경로 수정하기
 def download_audio(url):
     url=url
-    output_directory='C:\\Dev\\Crescendo_python\\download'
+   # output_directory='C:\\Dev\\Crescendo_python\\download'
+    output_directory='D:\\Crescendo_python\\download'
     yt = YouTube(url)
     ys = yt.streams.filter(only_audio=False).first()
     video_output_path = os.path.join(output_directory, "audio.mp3")

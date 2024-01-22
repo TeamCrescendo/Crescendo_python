@@ -11,6 +11,8 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from notation.models import Youtube_Info_Serializer
+from notation.transfet_utils import down_mp3
+
 @csrf_exempt
 def get_youtube_info(request):
     if request.method == 'POST':
@@ -18,9 +20,10 @@ def get_youtube_info(request):
         serializer =Youtube_Info_Serializer(data=data)
 
         if serializer.is_valid():
-            # serializer.save()
+            instance=serializer.save()
             print(data)
-            return JsonResponse(serializer.data, status=201)
+            json_data=JsonResponse(serializer.data, status=201)
+            return down_mp3.download_audio(instance.url)
         return JsonResponse(serializer.errors, status=400)
     else:
         return JsonResponse({'error': 'Only POST requests are allowed.'}, status=405)
