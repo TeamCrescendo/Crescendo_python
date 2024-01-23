@@ -31,8 +31,8 @@ def get_youtube_info(request):
                 #스프링과 통신할 함수로 넘겨주기
                 return export_to_spring(musicxml_path)
         return JsonResponse(serializer.errors, status=400)
-    else:
-        return JsonResponse({'error': 'Only POST requests are allowed.'}, status=405)
+    # else:
+    #     return JsonResponse({'error': 'Only POST requests are allowed.'}, status=405)
 
 
 # views.py in Django
@@ -44,6 +44,7 @@ from django.http import HttpResponse
 from notation.utils import delete
 #스프링으로 전달하는 함수
 def export_to_spring(muscixml_path):
+    print(muscixml_path)
     # MusicXML 파일이 저장된 디렉토리 경로
     musicxml_directory = muscixml_path
 
@@ -52,6 +53,7 @@ def export_to_spring(muscixml_path):
 
     # MusicXML 파일의 전체 경로
     musicxml_path = musicxml_directory
+    
     # os.path.join(musicxml_directory, musicxml_filename)
 
     try:
@@ -66,9 +68,7 @@ def export_to_spring(muscixml_path):
 
     except FileNotFoundError:
         return HttpResponse('MusicXML file not found', status=404)
-    finally:
-        #down저장소에있는 모든 파일 삭제
-        delete.delete_all_files_in_folder()
+    
 
 
 

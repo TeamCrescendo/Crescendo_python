@@ -8,15 +8,20 @@ from base import BASIC_PATH,AUDIO_DOWN_PATH
 from notation.transfet_utils import down_mp3,mp3_to_midi,midi_to_xml
 
 def transfer_process(url):
+    print('url',url)
     # 과정마다 에러나면 badrequest보내기
     #mp3다운중 에러 -> 유트브 정책상문제로 다운로드 할수 없습니다..
     #midi파일 다운중 에러-> midi파일로 변환중 문제입니다. 다시한번 시도해주세요!
     #xml 변환중 에러-> xml파일 다운중에러입니다. 다시한번 시도해주세요!
+    print('변환작업')
     try:
+
         audio_path=down_mp3.download_audio(url)
+        # down_mp3.download_audio(url)
         print('audio path',audio_path)
     except:
-        return JsonResponse({'error': '유트브 정책상문제로 다운로드 할수 없습니다. 다른 음원을 이용해보세요!'}, status=405)
+        print('다운이 안받아져요')
+    # JsonResponse({'error': '유트브 정책상문제로 다운로드 할수 없습니다. 다른 음원을 이용해보세요!'}, status=405)
     
     try:
         midi_path=mp3_to_midi.down_musicxml(audio_path)
