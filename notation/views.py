@@ -11,24 +11,25 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from notation.models import Youtube_Info_Serializer
-from notation.transfet_utils import down_mp3,mp3_to_midi
+from notation.transfet_utils import down_mp3,mp3_to_midi,transfer
 
 @csrf_exempt
 def get_youtube_info(request):
     if request.method == 'POST':
         data = JSONParser().parse(request)
         serializer =Youtube_Info_Serializer(data=data)
-
+        # JSON 파일을 받아오는데 성공하면
         if serializer.is_valid():
             instance=serializer.save()
             print(data)
             json_data=JsonResponse(serializer.data, status=201)
-            #mp3파일 다운받고 midi파일로 변환
-            mp3_path=down_mp3.download_audio(instance.url)
-            musicxml_path=mp3_to_midi.down_musicxml(mp3_path)
-            #midi파일을 musicxml로 변환하기
+            #mp3파일 다운받고 midi파일로 변환-> MUSICXML 파일로 변환하는 프로세스 함수
+            musicxml_path=transfer.transfer_process(instance.url)
 
-            return ''
+            # 오류 없이 생성되서 muscixml_path가 None이 아니라면
+            if musicxml_path!=None:
+                #스프링과 통신할 함수로 넘겨주기
+                return export_to_spring(musicxml_path)
         return JsonResponse(serializer.errors, status=400)
     else:
         return JsonResponse({'error': 'Only POST requests are allowed.'}, status=405)
@@ -39,9 +40,9 @@ from django.http import JsonResponse
 import requests
 import json
 #스프링으로 전달하는 함수
-def export_to_spring(request):
+def export_to_spring(muscixml_path):
     # 가상의 데이터 생성 (실제 데이터 사용)
-    muscixml_path='D:\\Crescendo_python\\download\\audio.musicxml'
+    muscixml_path=muscixml_path
     data_to_export = {'musicxmlfile': muscixml_path}
 
     # JSON 파일 생성
