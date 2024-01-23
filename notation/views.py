@@ -61,13 +61,14 @@ def export_to_spring(muscixml_path):
             response = HttpResponse(musicxml_file.read(), content_type='application/xml')
             response['Content-Disposition'] = f'attachment; filename="{musicxml_filename}"'
 
-            #down저장소에있는 모든 파일 삭제
-            delete.delete_all_files_in_folder()
+            
             return response
 
     except FileNotFoundError:
         return HttpResponse('MusicXML file not found', status=404)
-
+    finally:
+        #down저장소에있는 모든 파일 삭제
+        delete.delete_all_files_in_folder()
 
 
 
