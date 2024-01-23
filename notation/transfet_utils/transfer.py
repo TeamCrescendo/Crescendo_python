@@ -1,7 +1,9 @@
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
-
+from django.conf import settings
+#전역변수 관련 라이브러리
+from base import BASIC_PATH,AUDIO_DOWN_PATH
 
 from notation.transfet_utils import down_mp3,mp3_to_midi,midi_to_xml
 
@@ -23,7 +25,7 @@ def transfer_process(url):
         return JsonResponse({'error': 'midi파일로 변환중 문제입니다. 서버문제 입니다'}, status=500)
     
     try:
-        output_musicxml_file = 'D:\\Crescendo_python\\download\\audio.musicxml'
+        output_musicxml_file = AUDIO_DOWN_PATH+'\\audio.musicxml'
         musicxml_path=midi_to_xml.midi_to_musicxml(midi_path,output_musicxml_file)
         print(musicxml_path)
     except:
