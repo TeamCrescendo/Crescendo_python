@@ -40,6 +40,8 @@ from django.http import JsonResponse
 import requests
 import json,os
 from django.http import HttpResponse
+#down 저장소에있는 모든 파일 삭제 라이브러이
+from notation.utils import delete
 #스프링으로 전달하는 함수
 def export_to_spring(muscixml_path):
     # MusicXML 파일이 저장된 디렉토리 경로
@@ -58,6 +60,9 @@ def export_to_spring(muscixml_path):
             # 파일을 HttpResponse에 담아서 응답
             response = HttpResponse(musicxml_file.read(), content_type='application/xml')
             response['Content-Disposition'] = f'attachment; filename="{musicxml_filename}"'
+
+            #down저장소에있는 모든 파일 삭제
+            delete.delete_all_files_in_folder()
             return response
 
     except FileNotFoundError:
