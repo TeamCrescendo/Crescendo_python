@@ -40,7 +40,7 @@ from django.http import JsonResponse
 import requests
 import json,os
 from django.http import HttpResponse
-#down 저장소에있는 모든 파일 삭제 라이브러이
+#down 저장소에있는 모든 파일 삭제 라이브러리
 from notation.utils import delete
 #스프링으로 전달하는 함수
 def export_to_spring(muscixml_path):
@@ -66,9 +66,9 @@ def export_to_spring(muscixml_path):
 
     except FileNotFoundError:
         return HttpResponse('MusicXML file not found', status=404)
-    finally:
+    #finally:
         #down저장소에있는 모든 파일 삭제
-        delete.delete_all_files_in_folder()
+        #delete.delete_all_files_in_folder(AUDIO_DOWN_PATH)
 
 
 
