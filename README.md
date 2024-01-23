@@ -17,8 +17,10 @@ pip install django-cors-headers
    `myserver\Scripts\activate`
    ![Alt text](image.png)
    이런식으로 보이면 가상환경 로딩성공
+   ) 가상환경 작동이 안되면 관리자 powershell에 `Set-ExecutionPolicy -ExecutionPolicy RemoteSigned` 실행
+   
 
-4. 가상환경 작동후 설치할것
+5. 가상환경 작동후 설치할것
 
 ```
 
@@ -47,3 +49,9 @@ chocolatey 설치 방법
 ## 요청신호 보내는 법
 http://127.0.0.1:8181/youtube/youtube
 post 방식으로 url 보내기
+
+6. youtube 다운안될때
+   pytube 충돌 문제 일수 있음
+   pip uninstall pytube
+   pip uninstall pytube3 실행후
+   pip install pytube 다시 깔기

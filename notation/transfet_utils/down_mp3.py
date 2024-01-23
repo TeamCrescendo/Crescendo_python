@@ -9,7 +9,7 @@ from base import BASIC_PATH,AUDIO_DOWN_PATH
 # 유튜브 url이 오면 mp3로 바꿔줌
 # 경로 수정하기
 def download_audio(url):
-#url=url
+
    # output_directory='C:\\Dev\\Crescendo_python\\download'
     output_directory=AUDIO_DOWN_PATH
     print('다운받는 곳에서 url'+url)
