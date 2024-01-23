@@ -38,25 +38,54 @@ def get_youtube_info(request):
 # views.py in Django
 from django.http import JsonResponse
 import requests
-import json
+import json,os
+from django.http import HttpResponse
 #스프링으로 전달하는 함수
 def export_to_spring(muscixml_path):
-    # 가상의 데이터 생성 (실제 데이터 사용)
-    muscixml_path=muscixml_path
-    data_to_export = {'musicxmlfile': muscixml_path}
+    # MusicXML 파일이 저장된 디렉토리 경로
+    musicxml_directory = muscixml_path
 
-    # JSON 파일 생성
-    json_data = json.dumps(data_to_export)
+    # MusicXML 파일 이름 (예: example.musicxml)
+    musicxml_filename = 'audio.musicxml'
 
-    # 스프링 서버 URL
-    spring_url = 'http://spring-server-url/api/import-data'
+    # MusicXML 파일의 전체 경로
+    musicxml_path = musicxml_directory
+    # os.path.join(musicxml_directory, musicxml_filename)
 
-    # HTTP POST 요청을 통해 JSON 파일 전송
-    response = requests.post(spring_url, json=json_data, headers={'Content-Type': 'application/json'})
+    try:
+        # MusicXML 파일 열기
+        with open(musicxml_path, 'rb') as musicxml_file:
+            # 파일을 HttpResponse에 담아서 응답
+            response = HttpResponse(musicxml_file.read(), content_type='application/xml')
+            response['Content-Disposition'] = f'attachment; filename="{musicxml_filename}"'
+            return response
 
-    # 스프링에서의 응답 확인
-    spring_response = response.json()
+    except FileNotFoundError:
+        return HttpResponse('MusicXML file not found', status=404)
 
-    # 장고에서의 응답
-    return JsonResponse({'django_response': 'Export successful', 'spring_response': spring_response})
+
+
+
+
+
+
+
+    # # 가상의 데이터 생성 (실제 데이터 사용)
+    # muscixml_path=muscixml_path
+    # data_to_export = {'musicxmlfile': muscixml_path}
+
+    # # JSON 파일 생성
+    # json_data = json.dumps(data_to_export)
+
+    # # 스프링 서버 URL
+    # spring_url = 'http://spring-server-url/api/import-data'
+
+    # # HTTP POST 요청을 통해 JSON 파일 전송
+    # response = requests.post(spring_url, json=json_data, headers={'Content-Type': 'application/json'})
+
+    # # 스프링에서의 응답 확인
+    # spring_response = response.json()
+
+    # # 장고에서의 응답
+    # return JsonResponse({'django_response': 'Export successful', 'spring_response': spring_response})
 

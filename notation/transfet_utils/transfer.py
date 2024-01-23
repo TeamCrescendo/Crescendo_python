@@ -3,10 +3,7 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 
 
-
-from down_mp3 import download_audio
-from mp3_to_midi import down_musicxml
-from midi_to_xml import midi_to_musicxml
+from notation.transfet_utils import down_mp3,mp3_to_midi,midi_to_xml
 
 def transfer_process(url):
     # 과정마다 에러나면 badrequest보내기
@@ -14,17 +11,21 @@ def transfer_process(url):
     #midi파일 다운중 에러-> midi파일로 변환중 문제입니다. 다시한번 시도해주세요!
     #xml 변환중 에러-> xml파일 다운중에러입니다. 다시한번 시도해주세요!
     try:
-        audio_path=download_audio(url)
+        audio_path=down_mp3.download_audio(url)
+        print('audio path',audio_path)
     except:
         return JsonResponse({'error': '유트브 정책상문제로 다운로드 할수 없습니다. 다른 음원을 이용해보세요!'}, status=405)
     
     try:
-        midi_path=down_musicxml(audio_path)
+        midi_path=mp3_to_midi.down_musicxml(audio_path)
+        print('midipath',midi_path)
     except:
         return JsonResponse({'error': 'midi파일로 변환중 문제입니다. 서버문제 입니다'}, status=500)
     
     try:
-        musicxml_path=midi_to_musicxml(midi_path)
+        output_musicxml_file = 'D:\\Crescendo_python\\download\\audio.musicxml'
+        musicxml_path=midi_to_xml.midi_to_musicxml(midi_path,output_musicxml_file)
+        print(musicxml_path)
     except:
         return JsonResponse({'error': 'midi파일로 변환중 문제입니다. 서버문제 입니다'}, status=500)
     
