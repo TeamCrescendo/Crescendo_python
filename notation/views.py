@@ -68,13 +68,12 @@ def export_to_spring(muscixml_path):
 
     except FileNotFoundError:
         return HttpResponse('MusicXML file not found', status=404)
-<<<<<<< HEAD
+
     
-=======
+
     #finally:
         #down저장소에있는 모든 파일 삭제
         #delete.delete_all_files_in_folder(AUDIO_DOWN_PATH)
->>>>>>> c8844902fff09312f95f05c106b0ca9dc3c2c1fd
 
 
 
