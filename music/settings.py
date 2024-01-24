@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'notation',
+    'ai_notation',
     #crossorigin 허용관련 라이브러리
     'corsheaders',
    
