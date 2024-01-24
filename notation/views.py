@@ -24,12 +24,12 @@ def get_youtube_info(request):
             print(data)
             json_data=JsonResponse(serializer.data, status=201)
             #mp3파일 다운받고 midi파일로 변환-> MUSICXML 파일로 변환하는 프로세스 함수
-            musicxml_path=transfer.transfer_process(instance.url)
+            pdf_path=transfer.transfer_process(instance.url)
 
             # 오류 없이 생성되서 muscixml_path가 None이 아니라면
-            if musicxml_path!=None:
+            if pdf_path!=None:
                 #스프링과 통신할 함수로 넘겨주기
-                return export_to_spring(musicxml_path)
+                return export_to_spring(pdf_path)
         return JsonResponse(serializer.errors, status=400)
     # else:
     #     return JsonResponse({'error': 'Only POST requests are allowed.'}, status=405)
@@ -45,32 +45,36 @@ from notation.utils import delete
 from django.conf import settings
 #전역변수 관련 라이브러리
 from base import BASIC_PATH,AUDIO_DOWN_PATH
+from django.http import FileResponse
+from django.contrib.staticfiles import finders
 #스프링으로 전달하는 함수
-def export_to_spring(muscixml_path):
-    print(muscixml_path)
+def export_to_spring(pdf_path):
+    print(pdf_path)
     # MusicXML 파일이 저장된 디렉토리 경로
-    musicxml_directory = muscixml_path
+    musicxml_directory = pdf_path
+    with open(pdf_path, 'rb') as pdf_file:
+            pdf_content = pdf_file.read()
 
-    # MusicXML 파일 이름 (예: example.musicxml)
-    musicxml_filename = 'audio.musicxml'
+    response = HttpResponse(content=pdf_content, content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="{pdf_path.split("/")[-1]}"'
+    return response
 
-    # MusicXML 파일의 전체 경로
-    musicxml_path = musicxml_directory
-    
-    # os.path.join(musicxml_directory, musicxml_filename)
 
-    try:
-        # MusicXML 파일 열기
-        with open(musicxml_path, 'rb') as musicxml_file:
-            # 파일을 HttpResponse에 담아서 응답
-            response = HttpResponse(musicxml_file.read(), content_type='application/xml')
-            response['Content-Disposition'] = f'attachment; filename="{musicxml_filename}"'
+
+
+# musicxml 온전히 전달할 경우
+    # try:
+    #     # MusicXML 파일 열기
+    #     with open(musicxml_path, 'rb') as musicxml_file:
+    #         # 파일을 HttpResponse에 담아서 응답
+    #         response = HttpResponse(musicxml_file.read(), content_type='application/xml')
+    #         response['Content-Disposition'] = f'attachment; filename="{musicxml_filename}"'
 
             
-            return response
+    #         return response
 
-    except FileNotFoundError:
-        return HttpResponse('MusicXML file not found', status=404)
+    # except FileNotFoundError:
+    #     return HttpResponse('MusicXML file not found', status=404)
     # finally:
     #     #down저장소에있는 모든 파일 삭제
     #     delete.delete_all_files_in_folder(AUDIO_DOWN_PATH)

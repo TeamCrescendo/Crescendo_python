@@ -83,23 +83,25 @@ from django.conf import settings
 
 
 
-from music21 import stream, converter, environment
-import os
+
 
 # 환경 변수에서 MuseScore 실행 파일 경로 가져오기
 
-musescore_executable = environment.set("MUSESCORE_EXECUTABLE","C:\\Program Files\\MuseScore 3\\bin\\MuseScore3.exe")
 
-def convert_musicxml_to_pdf(input_musicxml_path, output_pdf_path):
-    # MusicXML 파일을 읽기
-    score = converter.parse(input_musicxml_path)
-
-    # MusicXML을 PDF로 저장
-    score.write('musicxml.pdf', fp=output_pdf_path)
+# print(env)
 
 
-# 예제: MusicXML을 입력받아 PDF로 저장
-input_musicxml_path = 'D:\\DEV\\Crescendo_python\\download\\audio.musicxml'
+# MUSESCORE_EXECUTABLE
+import os
+from music21 import converter, stream,environment
+us = environment.UserSettings()
+us['musicxmlPath'] = 'C:\\Program Files\\MuseScore 3\\bin\\MuseScore3.exe'
+us['musescoreDirectPNGPath'] = 'C:\\Program Files\\MuseScore 3\\bin\\MuseScore3.exe'
+us['musicxmlPath']
+
+import subprocess
+
+# MuseScore를 사용하여 MusicXML을 PDF로 변환
+mscore_executable_path = 'C:\\Program Files\\MuseScore 3\\bin\\MuseScore3.exe'
 output_pdf_path = 'D:\\DEV\\Crescendo_python\\download\\output.pdf'
-
-convert_musicxml_to_pdf(input_musicxml_path, output_pdf_path)
+subprocess.run([mscore_executable_path, 'D:\\DEV\\Crescendo_python\\download\\audio.musicxml', '-o', output_pdf_path])

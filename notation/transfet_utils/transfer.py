@@ -5,7 +5,7 @@ from django.conf import settings
 #전역변수 관련 라이브러리
 from base import BASIC_PATH,AUDIO_DOWN_PATH
 
-from notation.transfet_utils import down_mp3,mp3_to_midi,midi_to_xml
+from notation.transfet_utils import down_mp3,mp3_to_midi,midi_to_xml,xml_to_pdf
 
 def transfer_process(url):
     print('url',url)
@@ -34,6 +34,13 @@ def transfer_process(url):
         musicxml_path=midi_to_xml.midi_to_musicxml(midi_path,output_musicxml_file)
         print(musicxml_path)
     except:
-        return JsonResponse({'error': 'midi파일로 변환중 문제입니다. 서버문제 입니다'}, status=500)
+        return JsonResponse({'error': 'xml파일로 변환중 문제입니다. 서버문제 입니다'}, status=500)
+
+    try:
+        print('pdf로 바꾸나요')
+        out_pdf_path=xml_to_pdf.convert_pdf(musicxml_path)
+    except:
+        return JsonResponse({'error': 'pdf파일로 변환중 문제입니다. 서버문제 입니다'}, status=500)
+
     
-    return musicxml_path
+    return out_pdf_path
