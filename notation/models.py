@@ -3,7 +3,6 @@ from django.db import models
 
 class Youtube_Info(models.Model):
     url = models.CharField(max_length=100)
-    level = models.CharField(max_length=100)
 
 # serializers.py
 from rest_framework import serializers
