@@ -84,8 +84,11 @@ from django.conf import settings
 
 
 from music21 import stream, converter, environment
-musescore_path = r'D:\\Crescendo_python\\C:\\Program Files\\MuseScore 3\bin\\MuseScore3.exe'
-environment.set("musicxmlPath", musescore_path)
+import os
+
+# 환경 변수에서 MuseScore 실행 파일 경로 가져오기
+
+musescore_executable = environment.set("MUSESCORE_EXECUTABLE","C:\\Program Files\\MuseScore 3\\bin\\MuseScore3.exe")
 
 def convert_musicxml_to_pdf(input_musicxml_path, output_pdf_path):
     # MusicXML 파일을 읽기
@@ -96,7 +99,7 @@ def convert_musicxml_to_pdf(input_musicxml_path, output_pdf_path):
 
 
 # 예제: MusicXML을 입력받아 PDF로 저장
-input_musicxml_path = 'D:\\Crescendo_python\\download\\mu.musicxml'
-output_pdf_path = 'D:\\Crescendo_python\\download\\output.pdf'
+input_musicxml_path = 'D:\\DEV\\Crescendo_python\\download\\audio.musicxml'
+output_pdf_path = 'D:\\DEV\\Crescendo_python\\download\\output.pdf'
 
 convert_musicxml_to_pdf(input_musicxml_path, output_pdf_path)
