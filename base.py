@@ -7,7 +7,7 @@ from django.conf import settings
 DATABASES = settings.DATABASES
 DEBUG = settings.DEBUG
 
-BASIC_PATH=os.getcwd()
-AUDIO_DOWN_PATH=BASIC_PATH+'\\download'
+BASIC_PATH='C:\\Crescendo_python'
+AUDIO_DOWN_PATH='C:\\Crescendo_python\\download'
 
 # ... 기타 설정을 필요에 따라 상속
