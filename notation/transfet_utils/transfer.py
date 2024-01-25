@@ -24,7 +24,7 @@ def transfer_process(url):
     # JsonResponse({'error': '유트브 정책상문제로 다운로드 할수 없습니다. 다른 음원을 이용해보세요!'}, status=405)
     
     try:
-        midi_path=mp3_to_midi.down_musicxml(audio_path)
+        midi_path=mp3_to_midi.down_musicxml(audio_path,AUDIO_DOWN_PATH)
         print('midipath',midi_path)
     except:
         return JsonResponse({'error': 'midi파일로 변환중 문제입니다. 서버문제 입니다'}, status=500)
@@ -38,7 +38,7 @@ def transfer_process(url):
 
     try:
         print('pdf로 바꾸나요')
-        out_pdf_path=xml_to_pdf.convert_pdf(musicxml_path)
+        out_pdf_path=xml_to_pdf.convert_pdf(musicxml_path,AUDIO_DOWN_PATH)
     except:
         return JsonResponse({'error': 'pdf파일로 변환중 문제입니다. 서버문제 입니다'}, status=500)
 
