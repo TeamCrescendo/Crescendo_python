@@ -15,7 +15,7 @@
 # #         "top_k": 250,
 # #         "top_p": 0,
 # #         "prompt": "봄의 산뜻한 느낌을 담음 음악을 만들어줘",
-# #         "duration": 7,
+# #         "duration": 10,
 # #         "temperature": 1,
 # #         "continuation": False,
 # #         "model_version": "stereo-large",

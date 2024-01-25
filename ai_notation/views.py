@@ -25,8 +25,9 @@ Strategy for normalizing audio. Allowed values:loudness, clip, peak, rms
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
-from ai_notation.models import Ai_Info_Serializer,server_ai_info
+from ai_notation.models import Ai_Info_Serializer,client_ai_info
 from ai_notation.utils import transfer_json
+from ai_notation import ai_create
 from notation.transfet_utils import down_mp3,mp3_to_midi,transfer
 
 @csrf_exempt
@@ -34,23 +35,13 @@ def get_ai_info(request):
     if request.method == 'POST':
         data = JSONParser().parse(request)
         serializer =Ai_Info_Serializer(data=data)
-        # JSON 파일을 받아오는데 성공하면
         if serializer.is_valid():
             instance=serializer.save()
-            #ai처리시 필요한 정보가 전부들어있는 데이터파일
-            server_data=server_ai_info(instance)
-            #server_data를 json으로 변환하는 함수
-            transfer_json.data_to_jaon(server_data)
-
-            #ai로 음악을 생성하는 함수 -> mp3 path 반환하기
-        
-            #
-            musicxml_path=transfer.transfer_process(instance.url)
-
-            # 오류 없이 생성되서 muscixml_path가 None이 아니라면
-            if musicxml_path!=None:
+            # 인스턴스를 그대로 보내서 ai음악을 만드는 프로세스 돌리기
+            ai_music_path=ai_create.create_ai_music_process(instance)
+            if ai_music_path!=None:
                 #스프링과 통신할 함수로 넘겨주기
-                return export_to_spring(musicxml_path)
+                return export_to_spring(ai_music_path)
         return JsonResponse(serializer.errors, status=400)
     # else:
     #     return JsonResponse({'error': 'Only POST requests are allowed.'}, status=405)
@@ -66,34 +57,24 @@ from notation.utils import delete
 from django.conf import settings
 #전역변수 관련 라이브러리
 from base import BASIC_PATH,AUDIO_DOWN_PATH
-#스프링으로 전달하는 함수
-def export_to_spring(muscixml_path):
-    print(muscixml_path)
+from django.http import FileResponse
+from django.contrib.staticfiles import finders
+#스프링으로 전달하는 함수(pdf 전달)
+def export_to_spring(pdf_path):
+    print(pdf_path)
     # MusicXML 파일이 저장된 디렉토리 경로
-    musicxml_directory = muscixml_path
-
-    # MusicXML 파일 이름 (예: example.musicxml)
-    musicxml_filename = 'audio.musicxml'
-
-    # MusicXML 파일의 전체 경로
-    musicxml_path = musicxml_directory
-    
-    # os.path.join(musicxml_directory, musicxml_filename)
-
+    musicxml_directory = pdf_path
     try:
-        # MusicXML 파일 열기
-        with open(musicxml_path, 'rb') as musicxml_file:
-            # 파일을 HttpResponse에 담아서 응답
-            response = HttpResponse(musicxml_file.read(), content_type='application/xml')
-            response['Content-Disposition'] = f'attachment; filename="{musicxml_filename}"'
+        with open(pdf_path, 'rb') as pdf_file:
+                pdf_content = pdf_file.read()
 
-            
-            return response
-
-    except FileNotFoundError:
-        return HttpResponse('MusicXML file not found', status=404)
+        response = HttpResponse(content=pdf_content, content_type='application/pdf')
+        response['Content-Disposition'] = f'attachment; filename="{pdf_path.split("/")[-1]}"'
+        return response
+    except:
+        return JsonResponse({'error': 'pdf변환 실패'}, status=405)
     # finally:
-    #     #down저장소에있는 모든 파일 삭제
+    # #down저장소에있는 모든 파일 삭제
     #     delete.delete_all_files_in_folder(AUDIO_DOWN_PATH)
 
 

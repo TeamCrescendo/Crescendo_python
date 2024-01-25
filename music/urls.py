@@ -22,5 +22,5 @@ from django.urls import path,include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('youtube/',include('notation.urls')),
-    path('ai/',include('notation.urls')),
+    path('ai/',include('ai_notation.urls')),
 ]

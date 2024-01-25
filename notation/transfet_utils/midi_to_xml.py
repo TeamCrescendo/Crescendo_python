@@ -4,8 +4,9 @@ from music21 import converter,instrument,note
 
 def midi_to_musicxml(input_midi,output_musicxml_path):
     # MIDI 파일을 Music21 스트림으로 변환
+    print('midi패스 -->',input_midi)
     midi_stream = converter.parse(input_midi)
-
+    
     #모든 악기를 피아노로 변경
     # 모든 악기를 피아노로 변경
     # for part in midi_stream.parts:

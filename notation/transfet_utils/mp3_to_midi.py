@@ -12,14 +12,14 @@ print(current_directory)
 mp3_file_path = os.path.join('D:\\Crescendo_python\\download', "audio.mp3")
 
 # 성공
-def down_musicxml(mp3_path):
+def down_musicxml(mp3_path,output_dir):
     predict_and_save(
         [mp3_path],
-        AUDIO_DOWN_PATH,
+        output_dir,
         True,
         True,
         False,
         False,
     )
-    return AUDIO_DOWN_PATH+'\\audio_basic_pitch.mid'
+    return output_dir+'\\ai_output_basic_pitch.mid'
 # down_musicxml(mp3_file_path)

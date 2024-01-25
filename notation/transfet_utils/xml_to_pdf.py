@@ -10,11 +10,12 @@ us['musicxmlPath']
 
 # MuseScore를 사용하여 MusicXML을 PDF로 변환
 
-def convert_pdf(muscixml_path):
+def convert_pdf(muscixml_path,output_dir):
     import subprocess
     print('들어오나요?')
+    print(muscixml_path)
     mscore_executable_path = 'C:\\Program Files\\MuseScore 3\\bin\\MuseScore3.exe'
-    output_pdf_path = 'D:\\DEV\\Crescendo_python\\download\\audio.pdf'
+    output_pdf_path = output_dir+'\\audio.pdf'
     subprocess.run([mscore_executable_path, muscixml_path, '-o', output_pdf_path])
     return output_pdf_path
 
