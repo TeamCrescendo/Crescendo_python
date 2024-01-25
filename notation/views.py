@@ -47,17 +47,25 @@ from django.conf import settings
 from base import BASIC_PATH,AUDIO_DOWN_PATH
 from django.http import FileResponse
 from django.contrib.staticfiles import finders
-#스프링으로 전달하는 함수
+#스프링으로 전달하는 함수(pdf 전달)
 def export_to_spring(pdf_path):
     print(pdf_path)
     # MusicXML 파일이 저장된 디렉토리 경로
     musicxml_directory = pdf_path
-    with open(pdf_path, 'rb') as pdf_file:
-            pdf_content = pdf_file.read()
+    try:
+        with open(pdf_path, 'rb') as pdf_file:
+                pdf_content = pdf_file.read()
 
-    response = HttpResponse(content=pdf_content, content_type='application/pdf')
-    response['Content-Disposition'] = f'attachment; filename="{pdf_path.split("/")[-1]}"'
-    return response
+        response = HttpResponse(content=pdf_content, content_type='application/pdf')
+        response['Content-Disposition'] = f'attachment; filename="{pdf_path.split("/")[-1]}"'
+        return response
+    except:
+         return JsonResponse({'error': 'pdf변환 실패'}, status=405)
+    finally:
+    #down저장소에있는 모든 파일 삭제
+        delete.delete_all_files_in_folder(AUDIO_DOWN_PATH)
+
+         
 
 
 
