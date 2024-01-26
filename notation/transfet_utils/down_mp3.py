@@ -16,8 +16,8 @@ def download_audio(url):
     yt = YouTube(url)
     print('타이틀',yt.title)
     ys = yt.streams.filter(only_audio=True).first()
-    video_output_path = os.path.join('D:\\DEV\\Crescendo_python\\download', "audio.mp3")
-    ys.download(output_path='D:\\DEV\\Crescendo_python\\download', filename="audio.mp3")
+    video_output_path = os.path.join(AUDIO_DOWN_PATH, "audio.mp3")
+    ys.download(output_path=AUDIO_DOWN_PATH, filename="audio.mp3")
     return video_output_path
 
 #download_audio("https://www.youtube.com/watch?v=RdYVw7gBv14")
