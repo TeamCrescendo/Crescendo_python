@@ -21,5 +21,5 @@ def down_musicxml(mp3_path,output_dir):
         False,
         False,
     )
-    return output_dir+'\\ai_output_basic_pitch.mid'
+    return output_dir+'\\audio_basic_pitch.mid'
 # down_musicxml(mp3_file_path)
