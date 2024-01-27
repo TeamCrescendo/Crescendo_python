@@ -4,7 +4,11 @@
 from django.conf import settings
 #전역변수 관련 라이브러리
 from base import BASIC_PATH,AUDIO_DOWN_PATH
-
+import os
 
 def make_dir(account):
-    pass
+    directory_path=os.path.join(AUDIO_DOWN_PATH, account)
+    if not os.path.exists(directory_path):
+        os.makedirs(directory_path)
+    
+    return directory_path
