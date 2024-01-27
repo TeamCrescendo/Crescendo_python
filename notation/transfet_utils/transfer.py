@@ -4,7 +4,7 @@ from rest_framework.parsers import JSONParser
 from django.conf import settings
 #전역변수 관련 라이브러리
 from base import BASIC_PATH,AUDIO_DOWN_PATH,AUDIO_MIDI_FILE
-
+from notation.utils import delete
 from notation.transfet_utils import down_mp3,mp3_to_midi,midi_to_xml,xml_to_pdf,make_dir,make_uuid
 def transfer_process(url,account):
     try:
@@ -31,12 +31,18 @@ def transfer_link_to_pdf(url,down_dir_path,file_name):
         midi_file_name=f'{file_name}_{AUDIO_MIDI_FILE}'
         midi_path=mp3_to_midi.down_musicxml(audio_path,down_dir_path,midi_file_name)
         print('midipath',midi_path)
+        
         # midi->xml
         output_musicxml_file = down_dir_path+f'\\{file_name}.musicxml'
         musicxml_path=midi_to_xml.midi_to_musicxml(midi_path,output_musicxml_file)
         print(musicxml_path)
+
         # xml->pdf
         print('pdf로 바꾸나요')
         out_pdf_path=xml_to_pdf.convert_pdf(musicxml_path,down_dir_path,file_name)
+
+        delete.delete_files_in_folder(audio_path)
+        delete.delete_files_in_folder(midi_path)
+        delete.delete_files_in_folder(musicxml_path)
         return out_pdf_path
     

@@ -19,7 +19,7 @@ def down_musicxml(mp3_path,output_dir,file_name):
         [mp3_path],
         output_dir,
         True,
-        True,
+        False,
         False,
         False,
     )
