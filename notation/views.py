@@ -23,16 +23,19 @@ def get_youtube_info(request):
             instance=serializer.save()
             print(data)
             json_data=JsonResponse(serializer.data, status=201)
+
             #mp3파일 다운받고 midi파일로 변환-> MUSICXML 파일로 변환하는 프로세스 함수
-            pdf_path=transfer.transfer_process(instance.url)
+            url=instance.url
+            account_file_name=instance.account
+            pdf_path=transfer.transfer_process(url,account_file_name)
 
             # 오류 없이 생성되서 muscixml_path가 None이 아니라면
             if pdf_path!=None:
                 #스프링과 통신할 함수로 넘겨주기
                 return export_to_spring(pdf_path)
         return JsonResponse(serializer.errors, status=400)
-    # else:
-    #     return JsonResponse({'error': 'Only POST requests are allowed.'}, status=405)
+    else:
+        return JsonResponse({'error': 'Only POST requests are allowed.'}, status=405)
 
 
 # views.py in Django
