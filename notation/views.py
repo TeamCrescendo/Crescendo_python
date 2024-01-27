@@ -61,7 +61,7 @@ def export_to_spring(pdf_path):
 
         response = HttpResponse(content=pdf_content, content_type='application/pdf')
         response['Content-Disposition'] = f'attachment; filename="{pdf_path.split("/")[-1]}"'
-        response['pdf_path'] = pdf_path
+        response['pdf-path'] = pdf_path
         return response
     except:
          return JsonResponse({'error': 'pdf변환 실패'}, status=405)
