@@ -17,16 +17,16 @@ from notation.transfet_utils import down_mp3,mp3_to_midi,transfer
 def get_youtube_info(request):
     if request.method == 'POST':
         data = JSONParser().parse(request)
-        serializer =Youtube_Info_Serializer(data=data)
+        # serializer =Youtube_Info_Serializer(data=data)
         # JSON 파일을 받아오는데 성공하면
-        if serializer.is_valid():
-            instance=serializer.save()
-            print(data)
-            json_data=JsonResponse(serializer.data, status=201)
-
+        if data!=None:
+            # instance=serializer.save() ->db에 저장하는 거라 쓸모없음
+            print(data['account'])
+            # print(serializer)
+            # json_data=JsonResponse(serializer.data, status=201)
             #mp3파일 다운받고 midi파일로 변환-> MUSICXML 파일로 변환하는 프로세스 함수
-            url=instance.url
-            account_file_name=instance.account
+            url=data['url']
+            account_file_name=data['account']
             pdf_path=transfer.transfer_process(url,account_file_name)
 
             # 오류 없이 생성되서 muscixml_path가 None이 아니라면

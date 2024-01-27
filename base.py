@@ -9,7 +9,7 @@ DEBUG = settings.DEBUG
 
 BASIC_PATH=os.getcwd()
 AUDIO_DOWN_PATH=BASIC_PATH+'\\download'
-AUDIO_MIDI_FILE='\\audio_basic_pitch.mid'
+AUDIO_MIDI_FILE='basic_pitch.mid'
 
 AI_AUDIO_DOWN_PATH=BASIC_PATH+'\\ai_download'
 MUSESCORE_EXECUTABLE='C:\\Program Files\\MuseScore 3\\bin\\MuseScore3.exe'

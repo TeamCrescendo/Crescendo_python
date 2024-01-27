@@ -8,16 +8,14 @@ from base import BASIC_PATH,AUDIO_DOWN_PATH
 
 # 유튜브 url이 오면 mp3로 바꿔줌
 # 경로 수정하기
-def download_audio(url):
+def download_audio(url,file_name,down_path):
 
-   # output_directory='C:\\Dev\\Crescendo_python\\download'
-    output_directory=AUDIO_DOWN_PATH
     print('다운받는 곳에서 url'+url)
     yt = YouTube(url)
     print('타이틀',yt.title)
     ys = yt.streams.filter(only_audio=True).first()
-    video_output_path = os.path.join(AUDIO_DOWN_PATH, "audio.mp3")
-    ys.download(output_path=AUDIO_DOWN_PATH, filename="audio.mp3")
+    video_output_path = os.path.join(down_path, f"{file_name}.mp3")
+    ys.download(output_path=down_path, filename=f"{file_name}.mp3")
     return video_output_path
 
 #download_audio("https://www.youtube.com/watch?v=RdYVw7gBv14")
