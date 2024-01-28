@@ -1,9 +1,9 @@
-from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-from rest_framework.parsers import JSONParser
-from django.conf import settings
+# from django.http import JsonResponse
+# from django.views.decorators.csrf import csrf_exempt
+# from rest_framework.parsers import JSONParser
+# from django.conf import settings
 #전역변수 관련 라이브러리
-from base import BASIC_PATH,AUDIO_DOWN_PATH,AUDIO_MIDI_FILE
+
 from notation.utils import delete
 from notation.transfet_utils import down_mp3,mp3_to_midi,midi_to_xml,xml_to_pdf,make_dir,make_uuid
 def transfer_process(url,account):
@@ -28,7 +28,7 @@ def transfer_link_to_pdf(url,down_dir_path,file_name):
         audio_path=down_mp3.download_audio(url,file_name,down_dir_path)
         print('audio path',audio_path)
         # mp3-> midi
-        midi_file_name=f'{file_name}_{AUDIO_MIDI_FILE}'
+        midi_file_name=f'{file_name}_basic_pitch_mid'
         midi_path=mp3_to_midi.down_musicxml(audio_path,down_dir_path,midi_file_name)
         print('midipath',midi_path)
         
@@ -45,4 +45,4 @@ def transfer_link_to_pdf(url,down_dir_path,file_name):
         delete.delete_files_in_folder(midi_path)
         delete.delete_files_in_folder(musicxml_path)
         return out_pdf_path
-    
+

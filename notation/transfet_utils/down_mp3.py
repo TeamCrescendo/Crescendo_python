@@ -4,7 +4,6 @@ import os
 from pytube import YouTube
 from django.conf import settings
 #전역변수 관련 라이브러리
-from base import BASIC_PATH,AUDIO_DOWN_PATH
 
 # 유튜브 url이 오면 mp3로 바꿔줌
 # 경로 수정하기
