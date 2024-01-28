@@ -1,7 +1,7 @@
-# from django.http import JsonResponse
-# from django.views.decorators.csrf import csrf_exempt
-# from rest_framework.parsers import JSONParser
-# from django.conf import settings
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework.parsers import JSONParser
+from django.conf import settings
 #전역변수 관련 라이브러리
 
 from notation.utils import delete
@@ -28,12 +28,13 @@ def transfer_link_to_pdf(url,down_dir_path,file_name):
         audio_path=down_mp3.download_audio(url,file_name,down_dir_path)
         print('audio path',audio_path)
         # mp3-> midi
-        midi_file_name=f'{file_name}_basic_pitch_mid'
+        midi_file_name=f'{file_name}_basic_pitch.mid'
         midi_path=mp3_to_midi.down_musicxml(audio_path,down_dir_path,midi_file_name)
         print('midipath',midi_path)
         
         # midi->xml
         output_musicxml_file = down_dir_path+f'\\{file_name}.musicxml'
+        print(output_musicxml_file)
         musicxml_path=midi_to_xml.midi_to_musicxml(midi_path,output_musicxml_file)
         print(musicxml_path)
 

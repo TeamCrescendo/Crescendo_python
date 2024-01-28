@@ -3,6 +3,7 @@
 from music21 import converter,instrument,note
 
 def midi_to_musicxml(input_midi,output_musicxml_path):
+    print('xml 변환으로 들어오나요?')
     # MIDI 파일을 Music21 스트림으로 변환
     print('midi패스 -->',input_midi)
     midi_stream = converter.parse(input_midi)
