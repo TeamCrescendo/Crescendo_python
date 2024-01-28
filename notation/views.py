@@ -57,7 +57,7 @@ def export_to_spring(pdf_path):
     musicxml_directory = pdf_path
     try:
         with open(pdf_path, 'rb') as pdf_file:
-                pdf_content = pdf_file.read()
+                pdf_content = pdf_file.read()#
 
         response = HttpResponse(content=pdf_content, content_type='application/pdf')
         response['Content-Disposition'] = f'attachment; filename="{pdf_path.split("/")[-1]}"'
