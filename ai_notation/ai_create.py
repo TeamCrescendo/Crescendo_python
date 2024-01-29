@@ -78,8 +78,8 @@ def transfer_mp3_to_pdf(mp3_path,output_dir,file_name):
     musicxml_path=midi_to_xml.midi_to_musicxml(midi_file_path,output_musicxml_file)
     pdf_path=xml_to_pdf.convert_pdf(musicxml_path,output_dir,file_name)
 
-    # delete.delete_files_in_folder(mp3_path)
-    # delete.delete_files_in_folder(midi_path)
-    # delete.delete_files_in_folder(musicxml_path)
+    delete.delete_files_in_folder(mp3_path)
+    delete.delete_files_in_folder(midi_file_path)
+    delete.delete_files_in_folder(musicxml_path)
     return pdf_path
 # D:\DEV\Crescendo_python\download\member1\member1_ai_b61ec7d9-0fa1-4ac4-80a5-8cb8d874b54f.mp3
