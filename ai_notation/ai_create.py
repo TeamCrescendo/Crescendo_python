@@ -10,6 +10,7 @@ from notation.transfet_utils import mp3_to_midi,midi_to_xml,xml_to_pdf,make_dir,
 # replicate.set_token("r8_DJupDGbwmPN8TQzMJHw4OBO0Q11lEE64XX2Ub")
 os.environ["REPLICATE_API_TOKEN"] = "r8_XzEp6Fk1nRDzVdgjt4PUIOjjSXK4lJq11wQ24"
 
+#ai mp3만 변경
 def create_ai_music_process(data):
     account=data['account']
     prompt=data['prompt']
@@ -25,10 +26,10 @@ def create_ai_music_process(data):
         # 4. ai 음악 다운로드
         mp3_path=ai_mp3_down(ai_mp3_path,down_dir_path,file_name)
         # mp3-> pdf
-        out_pdf_path=transfer_mp3_to_pdf(mp3_path,down_dir_path,file_name)
+        #out_pdf_path=transfer_mp3_to_pdf(mp3_path,down_dir_path,file_name)
     except:
         return JsonResponse({'error': 'pdf파일로 변환중 문제입니다. 서버문제 입니다'}, status=500)
-    return out_pdf_path
+    return mp3_path
 
 
 def create_ai_music_mp3(prompt,duration):

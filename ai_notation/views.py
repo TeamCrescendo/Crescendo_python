@@ -68,9 +68,13 @@ def export_to_spring(pdf_path):
         with open(pdf_path, 'rb') as pdf_file:
                 pdf_content = pdf_file.read()
 
-        response = HttpResponse(content=pdf_content, content_type='application/pdf')
-        response['Content-Disposition'] = f'attachment; filename="{pdf_path.split("/")[-1]}"'
-        response['pdf-path'] = pdf_path
+
+        response = HttpResponse(pdf_path, content_type='audio/mp3')
+        response['Content-Disposition'] = 'attachment; filename="file.mp3"'
+
+        # response = HttpResponse(content=pdf_content, content_type='application/pdf')
+        # response['Content-Disposition'] = f'attachment; filename="{pdf_path.split("/")[-1]}"'
+        # response['pdf-path'] = pdf_path
         return response
     except:
         return JsonResponse({'error': 'pdf변환 실패'}, status=405)
