@@ -65,16 +65,19 @@ def export_to_spring(pdf_path):
     # MusicXML 파일이 저장된 디렉토리 경로
     musicxml_directory = pdf_path
     try:
-        with open(pdf_path, 'rb') as pdf_file:
-                pdf_content = pdf_file.read()
+        # with open(pdf_path, 'rb') as pdf_file:
+        #         pdf_content = pdf_file.read()
 
-
-        response = HttpResponse(pdf_path, content_type='audio/mp3')
-        response['Content-Disposition'] = 'attachment; filename="file.mp3"'
 
         # response = HttpResponse(content=pdf_content, content_type='application/pdf')
         # response['Content-Disposition'] = f'attachment; filename="{pdf_path.split("/")[-1]}"'
         # response['pdf-path'] = pdf_path
+
+        with open(pdf_path, 'rb') as mp3_file:
+            # MP3 파일을 HttpResponse로 감싸서 반환
+            response = HttpResponse(mp3_file, content_type='audio/mp3')
+            response['Content-Disposition'] = 'attachment; filename="file.mp3"'
+    
         return response
     except:
         return JsonResponse({'error': 'pdf변환 실패'}, status=405)
