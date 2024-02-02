@@ -11,6 +11,7 @@ from notation.transfet_utils import mp3_to_midi,midi_to_xml,xml_to_pdf,make_dir,
 os.environ["REPLICATE_API_TOKEN"] = "r8_XzEp6Fk1nRDzVdgjt4PUIOjjSXK4lJq11wQ24"
 
 #ai mp3만 변경
+
 def create_ai_music_process(data):
     account=data['account']
     prompt=data['prompt']
