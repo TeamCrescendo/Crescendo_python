@@ -47,6 +47,29 @@ def get_ai_info(request):
     #     return JsonResponse({'error': 'Only POST requests are allowed.'}, status=405)
 
 
+#  배경 mp3가 들어있는 요청을 처리하는 함수 
+@csrf_exempt
+def get_ai_by_base(request):
+    if request.method == 'POST':
+        print('mp3 처리하는 쪽으로 오나요')
+        data = request.POST.get('account')
+        uploaded_file = request.FILES.get('base_mp3')
+        print(uploaded_file)
+        print(data)
+        # serializer =Ai_Info_Serializer(data=data)
+        if data !=None:
+            ai_music_path=ai_create.create_ai_music_mp3_bybase(data)
+
+            if ai_music_path!=None:
+                #스프링과 통신할 함수로 넘겨주기
+                return export_to_spring(ai_music_path)
+        return JsonResponse({'error': 'Bad request Plz set Post method'}, status=400)
+    # else:
+    #     return JsonResponse({'error': 'Only POST requests are allowed.'}, status=405)
+
+
+
+
 # views.py in Django
 from django.http import JsonResponse
 from django.http import HttpResponse

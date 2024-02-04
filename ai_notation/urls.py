@@ -4,5 +4,7 @@ from . import views
 
 urlpatterns = [ 
 	path('ai/', views.get_ai_info, name='get_ai_info'), 
+    path('aibase/', views.get_ai_by_base, name='get_ai_info'), 
+
 
 ] 
