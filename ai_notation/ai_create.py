@@ -16,6 +16,7 @@ def create_ai_music_process(data):
     account=data['account']
     prompt=data['prompt']
     duration=data['duration']
+    base_mp3=data['base_mp3']
     print(account, prompt,duration)
     try:
         # 1. account 기반으로 dir 생성
@@ -23,11 +24,11 @@ def create_ai_music_process(data):
         #2. account 기반으로 uuid생성
         file_name=make_uuid.make_pk_file_name(account,'ai')
         # 3. prompt duratin 기반으로 ai 음악생성
-        ai_mp3_path=create_ai_music_mp3(prompt,duration)
-        # 4. ai 음악 다운로드
+        if base_mp3!=None:
+            ai_mp3_path=create_ai_music_mp3_bybase(prompt,duration,base_mp3)
+        else:
+            ai_mp3_path=create_ai_music_mp3(prompt,duration)
         mp3_path=ai_mp3_down(ai_mp3_path,down_dir_path,file_name)
-        # mp3-> pdf
-        #out_pdf_path=transfer_mp3_to_pdf(mp3_path,down_dir_path,file_name)
     except:
         return JsonResponse({'error': 'pdf파일로 변환중 문제입니다. 서버문제 입니다'}, status=500)
     return mp3_path
@@ -44,6 +45,32 @@ def create_ai_music_mp3(prompt,duration):
             "top_p": 0,
             "prompt": prompt,
             "duration": duration,
+            "temperature": 1,
+            "continuation": False,
+            "model_version": "stereo-large",
+            "output_format": "mp3",
+            "continuation_start": 0,
+            "multi_band_diffusion": False,
+            "normalization_strategy": "peak",
+            "classifier_free_guidance": 3
+        }
+    )
+
+    return ai_output_path
+
+
+def create_ai_music_mp3_bybase(prompt,duration,base_mp3):
+    # Set the REPLICATE_API_TOKEN environment variable
+    #ai로 음악 생성하는 함수
+    print('들어오나요??')
+    ai_output_path = replicate.run(
+        "meta/musicgen:b05b1dff1d8c6dc63d14b0cdb42135378dcb87f6373b0d3d341ede46e59e2b38",
+        input={
+            "top_k": 250,
+            "top_p": 0,
+            "prompt": prompt,
+            "duration": duration,
+            "input_audio":base_mp3,
             "temperature": 1,
             "continuation": False,
             "model_version": "stereo-large",
@@ -84,4 +111,4 @@ def transfer_mp3_to_pdf(mp3_path,output_dir,file_name):
     delete.delete_files_in_folder(midi_file_path)
     delete.delete_files_in_folder(musicxml_path)
     return pdf_path
-# D:\DEV\Crescendo_python\download\member1\member1_ai_b61ec7d9-0fa1-4ac4-80a5-8cb8d874b54f.mp3
+

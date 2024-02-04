@@ -49,17 +49,10 @@ def get_ai_info(request):
 
 # views.py in Django
 from django.http import JsonResponse
-import requests
-import json,os
 from django.http import HttpResponse
 #down 저장소에있는 모든 파일 삭제 라이브러리
-from notation.utils import delete
-from django.conf import settings
 #전역변수 관련 라이브러리
-from base import BASIC_PATH,AUDIO_DOWN_PATH
-from django.http import FileResponse
-from django.contrib.staticfiles import finders
-#스프링으로 전달하는 함수(pdf 전달)
+#스프링으로 전달하는 함수(mp3 자체 전달 전달)
 def export_to_spring(pdf_path):
     print(pdf_path)
     # MusicXML 파일이 저장된 디렉토리 경로
@@ -67,8 +60,6 @@ def export_to_spring(pdf_path):
     try:
         # with open(pdf_path, 'rb') as pdf_file:
         #         pdf_content = pdf_file.read()
-
-
         # response = HttpResponse(content=pdf_content, content_type='application/pdf')
         # response['Content-Disposition'] = f'attachment; filename="{pdf_path.split("/")[-1]}"'
         # response['pdf-path'] = pdf_path
