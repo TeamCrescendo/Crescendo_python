@@ -16,7 +16,6 @@ from notation.transfet_utils import transfer
 def get_youtube_info(request):
     if request.method == 'POST':
         data = JSONParser().parse(request)
-       
         # JSON 파일을 받아오는데 성공하면
         if data!=None:
             # instance=serializer.save() ->db에 저장하는 거라 쓸모없음
@@ -41,7 +40,6 @@ def get_youtube_info(request):
 from django.http import JsonResponse
 from django.http import HttpResponse
 #down 저장소에있는 모든 파일 삭제 라이브러리
-from django.conf import settings
 #전역변수 관련 라이브러리
 #스프링으로 전달하는 함수(pdf 전달)
 def export_to_spring(pdf_path):
