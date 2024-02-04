@@ -10,14 +10,13 @@ from rest_framework import generics,status
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
-from notation.models import Youtube_Info_Serializer
-from notation.transfet_utils import down_mp3,mp3_to_midi,transfer
+from notation.transfet_utils import transfer
 
 @csrf_exempt
 def get_youtube_info(request):
     if request.method == 'POST':
         data = JSONParser().parse(request)
-        # serializer =Youtube_Info_Serializer(data=data)
+       
         # JSON 파일을 받아오는데 성공하면
         if data!=None:
             # instance=serializer.save() ->db에 저장하는 거라 쓸모없음
@@ -29,7 +28,7 @@ def get_youtube_info(request):
             account_file_name=data['account']
             pdf_path=transfer.transfer_process(url,account_file_name)
 
-            # 오류 없이 생성되서 muscixml_path가 None이 아니라면
+            # 오류 없이 생성되서 musicxml_path가 None이 아니라면
             if pdf_path!=None:
                 #스프링과 통신할 함수로 넘겨주기
                 return export_to_spring(pdf_path)
@@ -40,16 +39,10 @@ def get_youtube_info(request):
 
 # views.py in Django
 from django.http import JsonResponse
-import requests
-import json,os
 from django.http import HttpResponse
 #down 저장소에있는 모든 파일 삭제 라이브러리
-from notation.utils import delete
 from django.conf import settings
 #전역변수 관련 라이브러리
-from base import BASIC_PATH,AUDIO_DOWN_PATH
-from django.http import FileResponse
-from django.contrib.staticfiles import finders
 #스프링으로 전달하는 함수(pdf 전달)
 def export_to_spring(pdf_path):
     print(pdf_path)
