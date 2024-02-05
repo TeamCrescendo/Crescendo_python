@@ -1,23 +1,21 @@
 #midi파일을 json파일로 변환해서 리턴하는 함수
 
-from music21 import converter,instrument,note
+from music21 import converter,instrument,note,stream
 
-def midi_to_musicxml(input_midi,output_musicxml_path):
+def midi_to_musicxml(input_midi,output_musicxml_path,title):
     print('xml 변환으로 들어오나요?')
     # MIDI 파일을 Music21 스트림으로 변환
     print('midi패스 -->',input_midi)
     midi_stream = converter.parse(input_midi)
     
-    #모든 악기를 피아노로 변경
-    # 모든 악기를 피아노로 변경
-    # for part in midi_stream.parts:
-    #     part.insert(0, instrument.Piano())
-    
-    # for element in midi_stream.flat.notes:
-    #     if isinstance(element, note.Note):
-    #         element.quarterLength *= 1.5
-
-
+    # MusicXml:이름, 작곡가 변경
+    print(len(title))
+    new_title=''
+    if len(title)>=10:
+        new_title+=title[0:10]+'\n'
+        new_title+=title[10:len(title)]+'\n'
+    midi_stream.metadata.title = new_title
+    midi_stream.metadata.composer="Creseondo"
     # MusicXML 파일로 저장
     midi_stream.write('musicxml', fp=output_musicxml_path)
     return output_musicxml_path

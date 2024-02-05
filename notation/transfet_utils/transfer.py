@@ -25,7 +25,7 @@ def transfer_process(url,account):
 def transfer_link_to_pdf(url,down_dir_path,file_name):
         
         # mp3생성
-        audio_path=down_mp3.download_audio(url,file_name,down_dir_path)
+        audio_path,title=down_mp3.download_audio(url,file_name,down_dir_path)
         print('audio path',audio_path)
         # mp3-> midi
         midi_file_name=f'{file_name}_basic_pitch.mid'
@@ -35,7 +35,7 @@ def transfer_link_to_pdf(url,down_dir_path,file_name):
         # midi->xml
         output_musicxml_file = down_dir_path+f'\\{file_name}.musicxml'
         print(output_musicxml_file)
-        musicxml_path=midi_to_xml.midi_to_musicxml(midi_path,output_musicxml_file)
+        musicxml_path=midi_to_xml.midi_to_musicxml(midi_path,output_musicxml_file,title)
         print(musicxml_path)
 
         # xml->pdf
