@@ -11,7 +11,8 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from notation.transfet_utils import transfer
-
+from aws_tool.conact_aws import uploadRoS3Bucket
+import os
 @csrf_exempt
 def get_youtube_info(request):
     if request.method == 'POST':
@@ -29,6 +30,9 @@ def get_youtube_info(request):
 
             # 오류 없이 생성되서 musicxml_path가 None이 아니라면
             if pdf_path!=None:
+                #aws에 파일 저장
+                file_name = os.path.basename(pdf_path)
+                uploadRoS3Bucket(data['account'],pdf_path,file_name)
                 #스프링과 통신할 함수로 넘겨주기
                 return export_to_spring(pdf_path)
         return JsonResponse({'error': 'Bad request Plz set Post method'}, status=400)

@@ -2,6 +2,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from django.conf import settings
+import os
 #전역변수 관련 라이브러리
 
 from notation.utils import delete
