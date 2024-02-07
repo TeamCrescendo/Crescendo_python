@@ -31,11 +31,10 @@ def get_youtube_info(request):
             # 오류 없이 생성되서 musicxml_path가 None이 아니라면
             if pdf_path!=None:
                 #aws에 파일 저장
+                file_name = os.path.basename(pdf_path)
                 aws_pdf_path=uploadRoS3Bucket(data['account'],pdf_path,file_name)
-                file_name = os.path.basename(pdf_path,aws_pdf_path)
-                
                 #스프링과 통신할 함수로 넘겨주기
-                return export_to_spring(pdf_path)
+                return export_to_spring(pdf_path,aws_pdf_path)
         return JsonResponse({'error': 'Bad request Plz set Post method'}, status=400)
     else:
         return JsonResponse({'error': 'Only POST requests are allowed.'}, status=405)
