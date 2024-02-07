@@ -31,8 +31,9 @@ def get_youtube_info(request):
             # 오류 없이 생성되서 musicxml_path가 None이 아니라면
             if pdf_path!=None:
                 #aws에 파일 저장
-                file_name = os.path.basename(pdf_path)
-                uploadRoS3Bucket(data['account'],pdf_path,file_name)
+                aws_pdf_path=uploadRoS3Bucket(data['account'],pdf_path,file_name)
+                file_name = os.path.basename(pdf_path,aws_pdf_path)
+                
                 #스프링과 통신할 함수로 넘겨주기
                 return export_to_spring(pdf_path)
         return JsonResponse({'error': 'Bad request Plz set Post method'}, status=400)
@@ -46,7 +47,7 @@ from django.http import HttpResponse
 #down 저장소에있는 모든 파일 삭제 라이브러리
 #전역변수 관련 라이브러리
 #스프링으로 전달하는 함수(pdf 전달)
-def export_to_spring(pdf_path):
+def export_to_spring(pdf_path,aws_pdf_path):
     print(pdf_path)
     # MusicXML 파일이 저장된 디렉토리 경로
     musicxml_directory = pdf_path
@@ -56,7 +57,7 @@ def export_to_spring(pdf_path):
 
         response = HttpResponse(content=pdf_content, content_type='application/pdf')
         response['Content-Disposition'] = f'attachment; filename="{pdf_path.split("/")[-1]}"'
-        response['pdf-path'] = pdf_path
+        response['pdf-path'] = aws_pdf_path
         return response
     except:
          return JsonResponse({'error': 'pdf변환 실패'}, status=405)

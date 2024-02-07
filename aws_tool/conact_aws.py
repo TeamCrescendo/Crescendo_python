@@ -29,6 +29,7 @@ def uploadRoS3Bucket(account,local_file_path,file_name):
     #uploadFile
     s3_client.upload_file(local_file_path, AWS_BUCKET_NAME, object_name+file_name)
     print('업로드 완료')
+    return AWS_END_POINT+object_name+file_name
 
 # uploadRoS3Bucket('member1','D:\\DEV\\Crescendo_python\\aws_tool\\1000000285.jpg','ttt2.jpg')
 
