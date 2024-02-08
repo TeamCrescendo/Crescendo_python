@@ -1,4 +1,4 @@
-django
+django==3.10.12
 djangorestframework
 django-cors-headers
 pytube
