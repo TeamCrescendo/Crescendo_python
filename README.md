@@ -55,3 +55,6 @@ post 방식으로 url 보내기
    pip uninstall pytube
    pip uninstall pytube3 실행후
    pip install pytube 다시 깔기
+
+
+## python manage.py runserver 8181
