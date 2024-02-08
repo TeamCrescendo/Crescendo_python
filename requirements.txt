@@ -1,4 +1,4 @@
-django==3.10.12
+django
 djangorestframework
 django-cors-headers
 pytube
@@ -7,3 +7,4 @@ basic_pitch
 pydub
 boto3
 replicate
+bs4
