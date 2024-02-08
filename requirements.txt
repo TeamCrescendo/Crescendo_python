@@ -6,3 +6,4 @@ music21
 basic_pitch
 pydub
 boto3
+replicate
