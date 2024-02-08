@@ -1,17 +1,13 @@
 import logging
 import boto3
 from botocore.exceptions import ClientError
-import os
+from base import AWS_ACCESS_KEY_ID,AWS_BUCKET_NAME,AWS_DEFAULT_REGION,AWS_END_POINT,AWS_SECRET_ACCESS_KEY
 
 # s3 = boto3.client('s3')
 # response = s3.list_buckets() # bucket 목록
 # print(response)
 # python 연결
-AWS_END_POINT='https:\\spring-todo-api-bucket-seon.s3.ap-northeast-2.amazonaws.com\\'
-AWS_BUCKET_NAME='spring-todo-api-bucket-seon'
-AWS_ACCESS_KEY_ID ="AKIA3FLD5HZYYJRAQCOU"
-AWS_SECRET_ACCESS_KEY = "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"
-AWS_DEFAULT_REGION = "ap-northeast-2"
+
 s3_client = boto3.client('s3',
                       aws_access_key_id=AWS_ACCESS_KEY_ID,
                       aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
