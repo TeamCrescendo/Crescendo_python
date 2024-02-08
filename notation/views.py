@@ -43,6 +43,8 @@ def get_youtube_info(request):
 # views.py in Django
 from django.http import JsonResponse
 from django.http import HttpResponse
+from base import AUDIO_DOWN_PATH
+from notation.utils import delete
 #down 저장소에있는 모든 파일 삭제 라이브러리
 #전역변수 관련 라이브러리
 #스프링으로 전달하는 함수(pdf 전달)
@@ -60,8 +62,8 @@ def export_to_spring(pdf_path,aws_pdf_path):
         return response
     except:
          return JsonResponse({'error': 'pdf변환 실패'}, status=405)
-    # finally:
-    #     #down저장소에있는 모든 파일 삭제
-    #     delete.delete_all_files_in_folder(AUDIO_DOWN_PATH)
+    finally:
+        #down저장소에있는 모든 파일 삭제
+        delete.delete_files_in_folder(AUDIO_DOWN_PATH)
 
          
