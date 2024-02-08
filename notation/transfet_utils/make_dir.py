@@ -3,7 +3,7 @@
 
 from django.conf import settings
 #전역변수 관련 라이브러리
-from base import BASIC_PATH,AUDIO_DOWN_PATH
+from aws_base import BASIC_PATH,AUDIO_DOWN_PATH
 import os
 
 def make_dir(account):

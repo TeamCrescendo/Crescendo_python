@@ -1,7 +1,7 @@
 import logging
 import boto3
 from botocore.exceptions import ClientError
-from base import AWS_ACCESS_KEY_ID,AWS_BUCKET_NAME,AWS_DEFAULT_REGION,AWS_END_POINT,AWS_SECRET_ACCESS_KEY
+from aws_base import AWS_ACCESS_KEY_ID,AWS_BUCKET_NAME,AWS_DEFAULT_REGION,AWS_END_POINT,AWS_SECRET_ACCESS_KEY
 
 # s3 = boto3.client('s3')
 # response = s3.list_buckets() # bucket 목록

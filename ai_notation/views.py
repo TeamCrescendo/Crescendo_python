@@ -56,7 +56,7 @@ from django.http import HttpResponse
 from notation.utils import delete
 from django.conf import settings
 #전역변수 관련 라이브러리
-from base import BASIC_PATH,AUDIO_DOWN_PATH
+from aws_base import BASIC_PATH,AUDIO_DOWN_PATH
 from django.http import FileResponse
 from django.contrib.staticfiles import finders
 #스프링으로 전달하는 함수(pdf 전달)

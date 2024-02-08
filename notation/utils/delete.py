@@ -2,7 +2,7 @@ import os
 from django.conf import settings
 import shutil
 #전역변수 관련 라이브러리
-from base import BASIC_PATH,AUDIO_DOWN_PATH
+from aws_base import BASIC_PATH,AUDIO_DOWN_PATH
 def delete_files_in_folder(path):
     for root, dirs, files in os.walk(path, topdown=False):
         for name in files:

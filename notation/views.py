@@ -43,7 +43,7 @@ def get_youtube_info(request):
 # views.py in Django
 from django.http import JsonResponse
 from django.http import HttpResponse
-from base import AUDIO_DOWN_PATH
+from aws_base import AUDIO_DOWN_PATH
 from notation.utils import delete
 #down 저장소에있는 모든 파일 삭제 라이브러리
 #전역변수 관련 라이브러리

@@ -4,7 +4,7 @@ import requests
 from django.conf import settings
 from django.http import JsonResponse
 #전역변수 관련 라이브러리
-from base import AI_AUDIO_DOWN_PATH
+from aws_base import AI_AUDIO_DOWN_PATH
 from notation.utils import delete
 from notation.transfet_utils import mp3_to_midi,midi_to_xml,xml_to_pdf,make_dir,make_uuid
 # replicate.set_token("r8_DJupDGbwmPN8TQzMJHw4OBO0Q11lEE64XX2Ub")
