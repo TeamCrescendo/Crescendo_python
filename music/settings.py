@@ -20,7 +20,24 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-%h8ic&3bjhv=#xsrm+61l2*r#7%-$v%)vnw$u4%r1o%-gwoywr'
+import json
+import os
+from pathlib import Path
+from django.core.exceptions import ImproperlyConfigured
+
+secret_file=os.path.join(BASE_DIR,'secrets.json')
+
+with open(secret_file) as f:
+    secrets = json.loads(f.read())
+
+def get_secret(setting, secrets=secrets):
+    try:
+        return secrets[setting]
+    except KeyError:
+        error_msg = "Set the {} environment variable".format(setting)
+        raise ImproperlyConfigured(error_msg)
+
+SECRET_KEY = get_secret("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -133,4 +150,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:8181",  # 허용할 Origin들을 명시
     "https://yourfrontenddomain.com",
+    '.pythonanywhere.com',
 ]
